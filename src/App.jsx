@@ -8,12 +8,14 @@ import MoreAbout from "./components/MoreInfo/MoreAbout";
 import MoreFeatures from "./components/MoreInfo/MoreFeatures";
 import HowitWorks from "./components/HowitWorks";
 import SelectionPage from "./components/SelectionPage";
+import Doctor from "./components/Doctor";
+import Patient from "./components/Patient"
 
 const ScrollToTop = () => {
   const location = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to top on route change
+    window.scrollTo(0, 0);
   }, [location.pathname]);
 
   return null;
@@ -31,6 +33,8 @@ function App() {
         <Route path="/features" element={<MoreFeatures />} />
         <Route path="/howitworks" element={<HowitWorks />} />
         <Route path="/selection" element={<SelectionPage/>}/>
+        <Route path="/doctor" element={<Doctor />}/>
+        <Route path="/patient" element={<Patient/>}/>
       </Routes>
       <Footer />
     </BrowserRouter>

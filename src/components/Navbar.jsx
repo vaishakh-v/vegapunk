@@ -3,18 +3,19 @@ import Button from "./ui/Button";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import logo from "./Images/Logo.png";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleClick = () => {
     window.scrollTo(0, 0);
     navigate("/Selection");
   };
+
+  const isActive = (path) => location.pathname === path;
 
   return (
     <div className="sticky top-0 z-50 bg-[black] bg-opacity-80 p-1 backdrop-blur-md">
@@ -31,7 +32,9 @@ export default function Navbar() {
           <li>
             <Link
               to="/"
-              className="text-primary-start hover:text-primary-start hover:opacity-100"
+              className={`${
+                isActive("/") ? "text-primary-start" : "text-para opacity-80"
+              } hover:text-primary-start hover:opacity-100`}
             >
               Home
             </Link>
@@ -39,7 +42,11 @@ export default function Navbar() {
           <li>
             <Link
               to="/about"
-              className="text-para opacity-80 hover:text-primary-start hover:opacity-100"
+              className={`${
+                isActive("/about")
+                  ? "text-primary-start"
+                  : "text-para opacity-80"
+              } hover:text-primary-start hover:opacity-100`}
             >
               About
             </Link>
@@ -47,7 +54,11 @@ export default function Navbar() {
           <li>
             <Link
               to="/features"
-              className="text-para opacity-80 hover:text-primary-start hover:opacity-100"
+              className={`${
+                isActive("/features")
+                  ? "text-primary-start"
+                  : "text-para opacity-80"
+              } hover:text-primary-start hover:opacity-100`}
             >
               Features
             </Link>
@@ -55,7 +66,11 @@ export default function Navbar() {
           <li>
             <Link
               to="/howitworks"
-              className="text-para opacity-80 hover:text-primary-start hover:opacity-100"
+              className={`${
+                isActive("/howitworks")
+                  ? "text-primary-start"
+                  : "text-para opacity-80"
+              } hover:text-primary-start hover:opacity-100`}
             >
               How it works
             </Link>
@@ -84,7 +99,11 @@ export default function Navbar() {
                 <li>
                   <Link
                     to="/"
-                    className="text-primary-start hover:text-primary-start hover:opacity-100"
+                    className={`${
+                      isActive("/")
+                        ? "text-primary-start"
+                        : "text-para opacity-80"
+                    } hover:text-primary-start hover:opacity-100`}
                   >
                     Home
                   </Link>
@@ -92,7 +111,11 @@ export default function Navbar() {
                 <li>
                   <Link
                     to="/about"
-                    className="text-para opacity-80 hover:text-primary-start hover:opacity-100"
+                    className={`${
+                      isActive("/about")
+                        ? "text-primary-start"
+                        : "text-para opacity-80"
+                    } hover:text-primary-start hover:opacity-100`}
                   >
                     About
                   </Link>
@@ -100,22 +123,30 @@ export default function Navbar() {
                 <li>
                   <Link
                     to="/features"
-                    className="text-para opacity-80 hover:text-primary-start hover:opacity-100"
+                    className={`${
+                      isActive("/features")
+                        ? "text-primary-start"
+                        : "text-para opacity-80"
+                    } hover:text-primary-start hover:opacity-100`}
                   >
                     Features
                   </Link>
                 </li>
                 <li>
                   <Link
-                    to="/contact"
-                    className="text-para opacity-80 hover:text-primary-start hover:opacity-100"
+                    to="/howitworks"
+                    className={`${
+                      isActive("/howitworks")
+                        ? "text-primary-start"
+                        : "text-para opacity-80"
+                    } hover:text-primary-start hover:opacity-100`}
                   >
-                    How It Works
+                    How it works
                   </Link>
                 </li>
               </ul>
 
-              <Button className="w-full" />
+              <Button className="w-full" onClick={handleClick} />
             </div>
           )}
         </div>
