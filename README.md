@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![alt text](https://github.com/vaishakh-v/vegapunk/blob/Fullstack/public/Logo.png?raw=true)
 
-## Getting Started
+<p style="text-align: center;font-size:40px;">Care2Gather</p>
 
-First, run the development server:
+<p style="text-align: center;" >A place where you can meet with those who may understand you better<p>
+
+## Tech Stack
+
+**Client:** Next.js, shadcn, auth.js, tailwind
+
+**Server:** hono.js
+
+# Steps to run the project
+
+This guide will walk you through the steps to set up and run a Next.js project. We'll also cover the necessary environment variables needed for the project.
+
+## Prerequisites
+
+Before you start, make sure you have the following installed:
+
+-   [Node.js](https://nodejs.org/) (v12.x or later)
+-   [npm](https://www.npmjs.com/), [Yarn](https://yarnpkg.com/), or [Bun](https://bun.sh/)
+
+## Steps to Run the Project
+
+### 1. Clone the Repository
+
+First, clone the repository from your version control system (e.g., GitHub):
 
 ```bash
+git clone https://github.com/vaishakh-v/vegapunk.git
+```
+
+### 2. Navigate to the Project Directory
+
+Change into the project directory:
+
+```bash
+cd your-repo
+```
+
+### 3. Install Dependencies
+
+Install the project dependencies using npm, Yarn, or Bun:
+
+```bash
+# Using npm
+npm install
+
+# Using Yarn
+yarn install
+
+# Using Bun
+bun install
+```
+
+if you encounter any error while installing, try using
+
+-   --force
+-   --legacy-peer-deps
+
+### 4. Set Up Environment Variables
+
+Create a .env.local file in the root of your project and add the following environment variables:
+
+```bash
+APP_URL=http://localhost:3000
+DATABASE_URL=your-database-url
+AUTH_SECRET=your-auth-secret
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+```
+
+### 5. Run the Development Server
+
+Start the development server:
+
+```bash
+# Using npm
 npm run dev
-# or
+
+# Using Yarn
 yarn dev
-# or
-pnpm dev
-# or
+
+# Using Bun
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Your Next.js application should now be running on http://localhost:3000.
