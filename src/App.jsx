@@ -10,6 +10,8 @@ import HowitWorks from "./components/HowitWorks";
 import SelectionPage from "./components/SelectionPage";
 import Doctor from "./components/Doctor";
 import Patient from "./components/Patient"
+import Questions from "./components/Questions";
+import Admin from "./components/Admin/Admin"
 
 const ScrollToTop = () => {
   const location = useLocation();
@@ -35,6 +37,8 @@ function App() {
         <Route path="/selection" element={<SelectionPage/>}/>
         <Route path="/doctor" element={<Doctor />}/>
         <Route path="/patient" element={<Patient/>}/>
+        <Route path="/questions" element={<Questions/>}></Route>
+        <Route path="/Admin" element={<Admin/>}></Route>
       </Routes>
       <Footer />
     </BrowserRouter>

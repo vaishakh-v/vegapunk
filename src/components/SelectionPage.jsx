@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { FaUserDoctor } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 
-import { Button } from "./ui";
-
 const SelectionPage = () => {
   const [selectedRole, setSelectedRole] = useState(null);
   const navigate = useNavigate();
@@ -40,11 +38,13 @@ const SelectionPage = () => {
               selectedRole === "doctor" ? "-translate-y-4 transform" : ""
             } ${selectedRole === "patient" ? "-translate-y-3 transform" : ""}`}
           >
-            <Button
-              title="Doctor"
-              Icon={FaUserDoctor}
+            <button
+              className="flex flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-lg transition-transform duration-500 hover:bg-gray-100"
               onClick={() => handleSelectRole("doctor")}
-            />
+            >
+              <FaUserDoctor className="text-4xl text-blue-500" />
+              <span className="text-lg font-semibold">Doctor</span>
+            </button>
             {selectedRole === null && (
               <p className="text-center text-sm text-gray-600">
                 Select this option if you are a healthcare professional looking
@@ -57,11 +57,13 @@ const SelectionPage = () => {
               selectedRole === "patient" ? "-translate-y-4 transform" : ""
             } ${selectedRole === "doctor" ? "-translate-y-3 transform" : ""}`}
           >
-            <Button
-              title="Patient"
-              Icon={CgProfile}
+            <button
+              className="flex flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-lg transition-transform duration-500 hover:bg-gray-100"
               onClick={() => handleSelectRole("patient")}
-            />
+            >
+              <CgProfile className="text-4xl text-green-500" />
+              <span className="text-lg font-semibold">Patient</span>
+            </button>
             {selectedRole === null && (
               <p className="text-center text-sm text-gray-600">
                 Select this option if you are seeking mental health support and
@@ -173,6 +175,26 @@ const SelectionPage = () => {
                     className="w-full rounded-lg border px-4 py-2"
                     required
                   />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Date of Birth</label>
+                  <input
+                    type="date"
+                    className="w-full rounded-lg border px-4 py-2"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Gender</label>
+                  <select
+                    className="w-full rounded-lg border px-4 py-2"
+                    required
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
                 </div>
                 <div className="mb-4">
                   <label className="block text-gray-700">Location - Area</label>
