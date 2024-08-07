@@ -1,6 +1,20 @@
 import { relations } from "drizzle-orm";
-import { date, integer, pgTable, primaryKey, text } from "drizzle-orm/pg-core";
+import {
+    date,
+    integer,
+    pgEnum,
+    pgTable,
+    primaryKey,
+    text,
+} from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
+
+export const userRoleEnum = pgEnum("role", [
+    "USER",
+    "GUEST",
+    "ADMIN",
+    "DOCTOR",
+]);
 
 export const users = pgTable("user", {
     id: text("id").primaryKey(),
@@ -8,6 +22,7 @@ export const users = pgTable("user", {
     email: text("email").unique(),
     emailVerified: date("emailVerified"),
     image: text("image"),
+    role: userRoleEnum("role").default("GUEST"),
 });
 export const userRelations = relations(users, ({ many }) => ({
     account: many(account),
@@ -37,10 +52,10 @@ export const account = pgTable(
         }),
     }),
 );
-export const accountsSchema = createInsertSchema(account);
 export const accountRelations = relations(account, ({ one }) => ({
     userId: one(users, {
         fields: [account.userId],
         references: [users.id],
     }),
 }));
+export const accountsSchema = createInsertSchema(account);
