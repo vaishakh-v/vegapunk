@@ -30,7 +30,10 @@ const Admin = () => {
     name: "",
     location: "",
     group: "",
+    venues: [],
   });
+
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const handleEventClick = (event) => {
     setSelectedEvent(event);
@@ -47,9 +50,24 @@ const Admin = () => {
   };
 
   const handleCreateEvent = () => {
-    // Logic for sending notifications and creating polls
     console.log("Event created", newEvent);
   };
+
+  const handleVenueToggle = (venue) => {
+    setNewEvent((prevState) => ({
+      ...prevState,
+      venues: prevState.venues.includes(venue)
+        ? prevState.venues.filter((v) => v !== venue)
+        : [...prevState.venues, venue],
+    }));
+  };
+
+  const handleGroupSelect = (group) => {
+    setNewEvent({ ...newEvent, group: group });
+    setShowDropdown(false);
+  };
+
+  const dummyGroups = ["Group A", "Group B", "Group C"];
 
   return (
     <div className="min-h-screen bg-gray-100 p-5">
@@ -72,14 +90,58 @@ const Admin = () => {
           onChange={handleInputChange}
           className="mb-2 w-full rounded-lg border p-2"
         />
-        <input
-          type="text"
-          name="group"
-          placeholder="Group"
-          value={newEvent.group}
-          onChange={handleInputChange}
-          className="mb-4 w-full rounded-lg border p-2"
-        />
+
+        <div className="relative mb-4 w-full">
+          <input
+            type="text"
+            name="group"
+            placeholder="Group"
+            value={newEvent.group}
+            onChange={(e) => {
+              handleInputChange(e);
+              setShowDropdown(true);
+            }}
+            className="w-full rounded-lg border p-2"
+            onFocus={() => setShowDropdown(true)}
+            onBlur={() => setTimeout(() => setShowDropdown(false), 100)}
+          />
+          {showDropdown && (
+            <div className="absolute z-10 w-full rounded-lg bg-white shadow-lg">
+              {dummyGroups
+                .filter((group) =>
+                  group.toLowerCase().includes(newEvent.group.toLowerCase()),
+                )
+                .map((group, index) => (
+                  <div
+                    key={index}
+                    className="cursor-pointer px-4 py-2 hover:bg-gray-200"
+                    onClick={() => handleGroupSelect(group)}
+                  >
+                    {group}
+                  </div>
+                ))}
+            </div>
+          )}
+        </div>
+
+        <div className="mb-4 flex flex-wrap gap-2">
+          {["Park", "Cafe", "Public Halls", "Public Grounds", "Hospitals"].map(
+            (venue) => (
+              <button
+                key={venue}
+                className={`rounded-full px-4 py-2 text-lg font-semibold text-white transition hover:-rotate-3 ${
+                  newEvent.venues.includes(venue)
+                    ? "bg-blue-500"
+                    : "bg-gray-400"
+                }`}
+                onClick={() => handleVenueToggle(venue)}
+              >
+                {venue}
+              </button>
+            ),
+          )}
+        </div>
+
         <button
           className="w-full rounded-lg bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600"
           onClick={handleCreateEvent}
