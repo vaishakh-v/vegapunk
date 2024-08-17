@@ -1,39 +1,33 @@
+import { relations } from "drizzle-orm";
 import {
     integer,
     primaryKey,
     sqliteTable,
     text,
 } from "drizzle-orm/sqlite-core";
-import { relations } from "drizzle-orm";
+import { v4 as uuid } from "uuid";
 
-// export const userRoleEnum = sqliteTable("role", [
-//     "USER",
-//     "GUEST",
-//     "ADMIN",
-//     "DOCTOR",
-// ]);
-
-export const users = sqliteTable("user", {
+export const Users = sqliteTable("user", {
     id: text("id").primaryKey(),
     name: text("name"),
     email: text("email").unique(),
     emailVerified: text("emailVerified"),
     image: text("image"),
-    role: text("role", { enum: ["ADMIN", "USER", "GUEST", "DOCTOR"] }).default(
-        "GUEST"
-    ),
+    role: text("role", {
+        enum: ["ADMIN", "PATIENT", "GUEST", "DOCTOR"],
+    }).default("GUEST"),
 });
-export type UserRoleType = "ADMIN" | "USER" | "GUEST" | "DOCTOR";
-export const userRelations = relations(users, ({ many }) => ({
-    accounts: many(account),
+export type UserRoleType = "ADMIN" | "PATIENT" | "GUEST" | "DOCTOR";
+export const userRelations = relations(Users, ({ many }) => ({
+    accounts: many(Accounts),
 }));
 
-export const account = sqliteTable(
+export const Accounts = sqliteTable(
     "account",
     {
         userId: text("userId")
             .notNull()
-            .references(() => users.id, { onDelete: "cascade" }),
+            .references(() => Users.id, { onDelete: "cascade" }),
         type: text("type"),
         provider: text("provider").notNull(),
         providerAccountId: text("providerAccountId").notNull(),
@@ -51,9 +45,37 @@ export const account = sqliteTable(
         }),
     })
 );
-export const accountRelations = relations(account, ({ one }) => ({
-    user: one(users, {
-        fields: [account.userId],
-        references: [users.id],
+export const accountRelations = relations(Accounts, ({ one }) => ({
+    user: one(Users, {
+        fields: [Accounts.userId],
+        references: [Users.id],
     }),
 }));
+
+export const Patient = sqliteTable("patient", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => uuid()),
+    userID: text("user_id")
+        .notNull()
+        .unique()
+        .references(() => Users.id),
+    dob: text("date_of_birth").notNull(),
+    gender: text("gender").notNull(),
+    location: text("location").notNull(),
+    zipCode: text("zip_code").notNull(),
+});
+
+export const Doctor = sqliteTable("doctor", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => uuid()),
+    userID: text("user_id")
+        .notNull()
+        .unique()
+        .references(() => Users.id),
+    specialization: text("specialization").notNull(),
+    regNo: text("reg_no").notNull().unique(),
+    location: text("location").notNull(),
+    zipCode: text("zip_code").notNull(),
+});

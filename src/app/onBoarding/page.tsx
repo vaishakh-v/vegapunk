@@ -1,11 +1,10 @@
-import React from "react";
 import { FaUserDoctor } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import Link from "next/link";
 
-export default function SelectionPage() {
+export default async function OnBoardingPage() {
     return (
-        <div className="flex min-h-[calc(100svh-88px)] flex-col items-center justify-center">
+        <div className="flex min-h-[calc(100svh-110px)] flex-col items-center justify-center">
             <h1 className="font-poppins text-[32px] font-medium tracking-[0.44px] text-secondary">
                 Welcome to Care2Gather
             </h1>
@@ -15,7 +14,7 @@ export default function SelectionPage() {
             <div className="mt-14 flex max-w-5xl gap-10">
                 <Link
                     className="flex flex-col items-center justify-center rounded-lg p-10 shadow-xl transition-all hover:bg-gray-50 hover:shadow-lg hover:shadow-blue-300"
-                    href={"/select/doctor"}
+                    href={"/onBoarding/doctor"}
                 >
                     <FaUserDoctor className="text-4xl text-blue-500" />
                     <p className="mt-2 text-2xl font-semibold">Doctor</p>
@@ -26,7 +25,7 @@ export default function SelectionPage() {
                 </Link>
                 <Link
                     className="flex flex-col items-center justify-center rounded-lg p-10 shadow-xl transition-shadow hover:bg-gray-50 hover:shadow-lg hover:shadow-green-300"
-                    href={"/select/user"}
+                    href={"/onBoarding/patient"}
                 >
                     <CgProfile className="text-4xl text-green-500" />
                     <p className="mt-2 text-2xl font-semibold">User</p>

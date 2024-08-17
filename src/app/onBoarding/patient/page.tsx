@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,43 +15,59 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { PatientInsertSchema } from "@/db/types";
+import { api } from "@/lib/hono";
 
-const FormSchema = z.object({
-    name: z.string().min(2, {
-        message: "Name be at least 2 characters.",
-    }),
-    specialization: z.string().min(2),
-    location: z.string().min(5),
-    // TODO : add a regex for the doctor's regNo
-    regNo: z.string(),
-    // TODO : add a regex for zip codes
-    zipCode: z.string(),
-});
+const FormSchema = PatientInsertSchema.omit({ userID: true });
 
-export default function DoctorDetails() {
+export default function UserDetails() {
+    const { data: session } = useSession();
     const router = useRouter();
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             // TODO : add a functionality to pre-populate the name field form the session
-            name: "",
-            specialization: "",
             location: "",
-            regNo: "",
             zipCode: "",
+            dob: "",
+            gender: "",
         },
     });
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
         // eslint-disable-next-line
-        console.log(data);
+        console.log(data, session?.user.id);
+
+        const response = await api.patient.$post({
+            form: {
+                location: data.location,
+                dob: data.dob,
+                gender: data.gender,
+                zipCode: data.zipCode,
+                userID: session?.user.id || "",
+            },
+        });
+
+        if (!response.ok) {
+            // TODO : Handle error that may occur, may be use toast
+            return;
+        }
+
+        router.push(`/dashboard/${session?.user.id}`);
     }
 
     return (
         <div className="grid min-h-[calc(100svh-88px)] place-content-center">
             <h1 className="mb-4 text-center text-2xl font-semibold">
-                Doctors Registration
+                User Registration
             </h1>
             <Form {...form}>
                 <form
@@ -59,13 +76,13 @@ export default function DoctorDetails() {
                 >
                     <FormField
                         control={form.control}
-                        name="name"
+                        name="dob"
                         render={({ field }) => (
                             <FormItem className="w-full">
                                 <FormControl>
                                     <Input
-                                        className="w-full"
-                                        placeholder="Name"
+                                        type="date"
+                                        placeholder="Specialization"
                                         {...field}
                                     />
                                 </FormControl>
@@ -76,27 +93,34 @@ export default function DoctorDetails() {
 
                     <FormField
                         control={form.control}
-                        name="specialization"
+                        name="gender"
                         render={({ field }) => (
                             <FormItem className="w-full">
-                                <FormControl>
-                                    <Input
-                                        placeholder="Specialization"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="regNo"
-                        render={({ field }) => (
-                            <FormItem className="w-full">
-                                <FormControl>
-                                    <Input placeholder="Reg No" {...field} />
-                                </FormControl>
+                                <Select
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                >
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue
+                                                placeholder="Select Gender"
+                                                className="text-[#65748a]"
+                                            />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="male">
+                                            Male
+                                        </SelectItem>
+                                        <SelectItem value="female">
+                                            Female
+                                        </SelectItem>
+                                        <SelectItem value="others">
+                                            Others
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+
                                 <FormMessage />
                             </FormItem>
                         )}

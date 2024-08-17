@@ -1,4 +1,5 @@
 export const publicRoutes = ["/"];
 export const authRoutes = ["/auth/login", "/auth/register", "/auth/error"];
-export const apiAuthPrefix = "/api/auth";
-export const DEFAULT_REDIRECT = "/dashboard";
+// TODO : Change this to /api/auth
+export const apiAuthPrefix = "/api/";
+export const DEFAULT_REDIRECT = "/onBoarding";

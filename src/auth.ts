@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 
 import { db } from "./db/drizzle";
 import authConfig from "./auth.config";
-import { users } from "./db/schema";
+import { Users } from "./db/schema";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
     pages: {
@@ -31,8 +31,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
             const [user] = await db
                 .select()
-                .from(users)
-                .where(eq(users.id, token.sub));
+                .from(Users)
+                .where(eq(Users.id, token.sub));
             if (!user) {
                 return token;
             }

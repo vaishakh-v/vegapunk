@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,74 +15,58 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+import { DoctorInsertSchema } from "@/db/types";
+import { api } from "@/lib/hono";
 
-const FormSchema = z.object({
-    name: z.string().min(2, {
-        message: "Name be at least 2 characters.",
-    }),
-    specialization: z.string().min(2),
-    // TODO : add a regex for zip codes
-    dob: z.date({
-        required_error: "A date of birth is required.",
-    }),
-    gender: z.string(),
-    location: z.string().min(5),
-    zipCode: z.string(),
-});
+const FormSchema = DoctorInsertSchema.omit({ userID: true });
 
-export default function UserDetails() {
+export default function DoctorDetails() {
+    const { data: session } = useSession();
     const router = useRouter();
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             // TODO : add a functionality to pre-populate the name field form the session
-            name: "",
             specialization: "",
             location: "",
+            regNo: "",
             zipCode: "",
         },
     });
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-        //  eslint-disable-next-line
-        console.log(data);
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
+        // eslint-disable-next-line
+        console.log(data, session?.user.id);
+
+        const response = await api.doctor.$post({
+            form: {
+                location: data.location,
+                specialization: data.specialization,
+                regNo: data.regNo,
+                zipCode: data.zipCode,
+                userID: session?.user.id || "",
+            },
+        });
+
+        if (!response.ok) {
+            // TODO : Handle error that may occur, may be use toast
+            return;
+        }
+
+        router.push(`/dashboard/${session?.user.id}`);
     }
 
     return (
         <div className="grid min-h-[calc(100svh-88px)] place-content-center">
             <h1 className="mb-4 text-center text-2xl font-semibold">
-                User Registration
+                Doctors Registration
             </h1>
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="flex w-full flex-col items-center space-y-6"
                 >
-                    <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                            <FormItem className="w-full">
-                                <FormControl>
-                                    <Input
-                                        className="w-full"
-                                        placeholder="Name"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
                     <FormField
                         control={form.control}
                         name="specialization"
@@ -97,37 +82,14 @@ export default function UserDetails() {
                             </FormItem>
                         )}
                     />
-
                     <FormField
                         control={form.control}
-                        name="gender"
+                        name="regNo"
                         render={({ field }) => (
                             <FormItem className="w-full">
-                                <Select
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}
-                                >
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue
-                                                placeholder="Select Gender"
-                                                className="text-[#65748a]"
-                                            />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        <SelectItem value="male">
-                                            Male
-                                        </SelectItem>
-                                        <SelectItem value="female">
-                                            Female
-                                        </SelectItem>
-                                        <SelectItem value="others">
-                                            Others
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-
+                                <FormControl>
+                                    <Input placeholder="Reg No" {...field} />
+                                </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}

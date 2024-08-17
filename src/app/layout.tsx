@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
+import { SessionProvider } from "next-auth/react";
 
 import "./globals.scss";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({
+    weight: ["200", "400", "700", "800"],
+    subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
     title: "Care2Gather",
@@ -19,9 +25,16 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={inter.className}>
-                <Navbar />
-                {children}
+            <body className={poppins.className}>
+                {/* 
+                // HACK : This may cause error as we are not providing a session into it, it automatically picks up the user, but sometimes like in initial render it will not pick up the user 
+                */}
+                <SessionProvider>
+                    <Navbar />
+                    <NextTopLoader showSpinner={false} />
+                    {children}
+                    <Footer />
+                </SessionProvider>
             </body>
         </html>
     );
