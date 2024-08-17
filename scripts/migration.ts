@@ -1,17 +1,21 @@
-import { config } from "dotenv";
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
-import { migrate } from "drizzle-orm/neon-http/migrator";
-import { consola } from "consola";
+import { createClient } from "@libsql/client";
+import consola from "consola";
+import { drizzle } from "drizzle-orm/libsql";
+import { migrate } from "drizzle-orm/libsql/migrator";
+import "dotenv/config";
 
-config({ path: ".evn.local" });
+const client = createClient({
+    url:
+        process.argv.slice(2)[0] === "production"
+            ? process.env.TURSO_CONNECTION_URL!
+            : process.env.TURSO_LOCAL_CONNECTION_URL!,
+    authToken: process.env.TURSO_AUTH_TOKEN!,
+});
+export const db = drizzle(client);
 
-consola.info(process.env.DATABASE_URL!);
-
-const sql = neon(process.env.DATABASE_URL!);
-const db = drizzle(sql);
 const main = async () => {
     try {
+        consola.info("Running Migration");
         await migrate(db, { migrationsFolder: "drizzle" });
         consola.success("Migration completed");
     } catch (error) {

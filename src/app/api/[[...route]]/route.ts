@@ -1,14 +1,16 @@
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 import { HTTPException } from "hono/http-exception";
+
 import { auth } from "@/auth";
 
 const app = new Hono().basePath("/api");
 
 app.onError((err, c) => {
-    if (err instanceof HTTPException) return err.getResponse();
+    if (err instanceof HTTPException) {
+        return err.getResponse();
+    }
 
-    console.error(err);
     return c.json({ error: "Internal error" }, 500);
 });
 

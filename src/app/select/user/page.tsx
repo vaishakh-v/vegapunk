@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
+import { CalendarIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,8 +16,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
-import { CalendarIcon } from "lucide-react";
 import {
     Popover,
     PopoverContent,
@@ -60,6 +60,7 @@ export default function UserDetails() {
     });
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
+        //  eslint-disable-next-line
         console.log(data);
     }
 
@@ -118,7 +119,7 @@ export default function UserDetails() {
                                                 className={cn(
                                                     "w-[240px] pl-3 text-left font-normal",
                                                     !field.value &&
-                                                        "text-muted-foreground",
+                                                        "text-muted-foreground"
                                                 )}
                                             >
                                                 {field.value ? (

@@ -1,6 +1,33 @@
 {
     "extends": "next/core-web-vitals",
     "rules": {
-        "no-unused-vars": "error"
+        "no-unused-vars": [
+            "error",
+            {
+                "argsIgnorePattern": "^param_",
+                "varsIgnorePattern": "^_",
+                "caughtErrorsIgnorePattern": "^_"
+            }
+        ],
+        "no-console": "warn",
+        "eqeqeq": ["error", "always"],
+        "curly": ["error", "all"],
+        "semi": ["error", "always"],
+        "react/react-in-jsx-scope": "off",
+        "react/prop-types": "off",
+        "import/order": [
+            "error",
+            {
+                "groups": [
+                    "builtin",
+                    "external",
+                    "internal",
+                    "parent",
+                    "sibling",
+                    "index"
+                ],
+                "newlines-between": "always"
+            }
+        ]
     }
 }

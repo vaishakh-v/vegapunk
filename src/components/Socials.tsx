@@ -1,6 +1,7 @@
 "use client";
 import { FaGoogle, FaApple } from "react-icons/fa";
 import { signIn } from "next-auth/react";
+
 import { DEFAULT_REDIRECT } from "@/routes";
 
 export default function Socials() {

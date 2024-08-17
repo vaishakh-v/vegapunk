@@ -1,8 +1,7 @@
-![alt text](https://github.com/vaishakh-v/vegapunk/blob/Fullstack/public/Logo.png?raw=true)
+![alt text](https://raw.githubusercontent.com/Shashwat-0077/care2gather/main/public/Care2GatherLogo.svg)
 
-<p style="text-align: center;font-size:40px;">Care2Gather</p>
-
-<p style="text-align: center;" >A place where you can meet with those who may understand you better<p>
+# Care2Gather 
+A place where you can meet with those who may understand you better
 
 ## Tech Stack
 
@@ -10,7 +9,7 @@
 
 **Server:** hono.js
 
-# Steps to run the project
+## Steps to run the project
 
 This guide will walk you through the steps to set up and run a Next.js project. We'll also cover the necessary environment variables needed for the project.
 
@@ -28,7 +27,10 @@ Before you start, make sure you have the following installed:
 First, clone the repository from your version control system (e.g., GitHub):
 
 ```bash
-git clone https://github.com/vaishakh-v/vegapunk.git
+git clone https://github.com/Shashwat-0077/care2gather.git
+
+# to clone files in the current dir
+git clone https://github.com/Shashwat-0077/care2gather.git .
 ```
 
 ### 2. Navigate to the Project Directory
@@ -64,11 +66,16 @@ if you encounter any error while installing, try using
 Create a .env.local file in the root of your project and add the following environment variables:
 
 ```bash
-APP_URL=http://localhost:3000
-DATABASE_URL=your-database-url
-AUTH_SECRET=your-auth-secret
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+AUTH_SECRET=your_auth_secret
+
+TURSO_LOCAL_CONNECTION_URL=http://127.0.0.1:8080
+TURSO_CONNECTION_URL=your_turso_database_connection
+TURSO_AUTH_TOKEN=your_turso_db_auth_secret
+
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
 ```
 
 ### 5. Run the Development Server

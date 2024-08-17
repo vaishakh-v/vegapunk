@@ -1,35 +1,34 @@
-import { relations } from "drizzle-orm";
 import {
-    date,
     integer,
-    pgEnum,
-    pgTable,
     primaryKey,
+    sqliteTable,
     text,
-} from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
+} from "drizzle-orm/sqlite-core";
+import { relations } from "drizzle-orm";
 
-export const userRoleEnum = pgEnum("role", [
-    "USER",
-    "GUEST",
-    "ADMIN",
-    "DOCTOR",
-]);
+// export const userRoleEnum = sqliteTable("role", [
+//     "USER",
+//     "GUEST",
+//     "ADMIN",
+//     "DOCTOR",
+// ]);
 
-export const users = pgTable("user", {
+export const users = sqliteTable("user", {
     id: text("id").primaryKey(),
     name: text("name"),
     email: text("email").unique(),
-    emailVerified: date("emailVerified"),
+    emailVerified: text("emailVerified"),
     image: text("image"),
-    role: userRoleEnum("role").default("GUEST"),
+    role: text("role", { enum: ["ADMIN", "USER", "GUEST", "DOCTOR"] }).default(
+        "GUEST"
+    ),
 });
+export type UserRoleType = "ADMIN" | "USER" | "GUEST" | "DOCTOR";
 export const userRelations = relations(users, ({ many }) => ({
-    account: many(account),
+    accounts: many(account),
 }));
-export const usersSchema = createInsertSchema(users);
 
-export const account = pgTable(
+export const account = sqliteTable(
     "account",
     {
         userId: text("userId")
@@ -50,12 +49,11 @@ export const account = pgTable(
         compoundKey: primaryKey({
             columns: [account.provider, account.providerAccountId],
         }),
-    }),
+    })
 );
 export const accountRelations = relations(account, ({ one }) => ({
-    userId: one(users, {
+    user: one(users, {
         fields: [account.userId],
         references: [users.id],
     }),
 }));
-export const accountsSchema = createInsertSchema(account);

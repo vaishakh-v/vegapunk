@@ -1,4 +1,5 @@
 import NextAuth from "next-auth";
+
 import authConfig from "./auth.config";
 import {
     apiAuthPrefix,
@@ -17,12 +18,15 @@ export default auth((req) => {
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-    if (isApiAuthRoute) return;
+    if (isApiAuthRoute) {
+        return;
+    }
 
     if (isAuthRoute) {
         // TODO : Apply callback urls and redirects
-        if (isLoggedIn)
+        if (isLoggedIn) {
             return Response.redirect(new URL(DEFAULT_REDIRECT, nextUrl));
+        }
         return;
     }
 

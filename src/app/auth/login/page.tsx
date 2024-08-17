@@ -1,5 +1,6 @@
-import Socials from "@/components/Socials";
 import React from "react";
+
+import Socials from "@/components/Socials";
 
 export default function Login() {
     return (

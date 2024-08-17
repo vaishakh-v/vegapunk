@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
+
 import UserLogo from "./UserLogo";
 
 export default function Navbar() {

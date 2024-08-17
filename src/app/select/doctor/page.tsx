@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +14,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
     name: z.string().min(2, {
@@ -43,6 +43,7 @@ export default function DoctorDetails() {
     });
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
+        // eslint-disable-next-line
         console.log(data);
     }
 
