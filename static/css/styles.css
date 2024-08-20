@@ -1,0 +1,92 @@
+/* Base Styles */
+body {
+    background-color: #f4f7fa;
+    color: #343a40;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3 {
+    font-family: 'Roboto', sans-serif;
+    color: #0056b3;
+}
+
+/* Container Styles */
+.container {
+    margin-top: 50px;
+    max-width: 800px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #0056b3;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #003d7a;
+}
+
+/* Form Styles */
+.form-select, .form-label {
+    font-size: 16px;
+}
+
+.mb-3 {
+    margin-bottom: 1.5rem !important;
+}
+
+/* Card Styles */
+.card {
+    border: none;
+    background-color: #f8f9fa;
+}
+
+.card-body {
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Text Styles */
+.text-danger {
+    color: #dc3545 !important;
+}
+
+/* Centering Content */
+.d-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Additional Styles */
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h2, h3 {
+    margin-bottom: 20px;
+}
+
+a.btn {
+    text-decoration: none;
+    color: #fff;
+}
+
+/* Footer */
+.footer {
+    margin-top: 50px;
+    text-align: center;
+    color: #6c757d;
+}
