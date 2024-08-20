@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ disorder }} Test Result</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ disorder }} Test Result</h1>
+        <div class="card text-center">
+            <div class="card-body">
+                <h2>Total Score: {{ score }}</h2>
+                <h3>Severity: <span class="text-danger">{{ severity }}</span></h3>
+                <a href="{{ url_for('home') }}" class="btn btn-primary btn-lg mt-4">Take Another Test</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
